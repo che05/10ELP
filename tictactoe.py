@@ -55,14 +55,15 @@ def getPlayerMove(board):
 
 def chooseRandomMoveFromList(board, movesList):
     possibleMoves = []
-    for i in movesList:
+    for i in movesList: 
         if isSpaceFree(board, i):
             possibleMoves.append(i)
         
-        if len(possibleMoves) != 0:
-            return random.choice(possibleMoves)
-        else:
-            return None
+    if len(possibleMoves) != 0:
+        return random.choice(possibleMoves)
+    else:
+        print("Computer has no possible moves.")
+        return None
 
 def getComputerMove(board, computerLetter):
     if computerLetter == 'O':
@@ -70,27 +71,20 @@ def getComputerMove(board, computerLetter):
     else:
         playerLetter = 'O'
 
-        for i in range(1,10):
-            boardCopy = getBoardCopy(board)
-            if isSpaceFree(boardCopy, i):
-                makeMove(boardCopy, playerLetter, i)
-                if isWinner(boardCopy, playerLetter):
-                    return i
+    for i in range(1,10):
+        boardCopy = getBoardCopy(board)
+        if isSpaceFree(boardCopy, i):
+            makeMove(boardCopy, playerLetter, i)
+            if isWinner(boardCopy, playerLetter):
+                return i
 
-        for i in range(1,10):
-            boardCopy = getBoardCopy(board)
-            if isSpaceFree(boardCopy, i):
-                makeMove(boardCopy, playerLetter, i)
-                if isWinner(boardCopy, playerLetter):
-                    return i
+    move = chooseRandomMoveFromList(board, [1, 3, 7, 9])
+    if move != None:
+        return move
 
-        move = chooseRandomMoveFromList(board, [1, 3, 7, 9])
-        if move != None:
-            return move
-
-        if isSpaceFree(board, 5):
-            return 5
-        return chooseRandomMoveFromList(board, [2,4,6,8])
+    if isSpaceFree(board, 5):
+        return 5
+    return chooseRandomMoveFromList(board, [2,4,6,8])
 
 def isBoardFull(board):
     for i in range(1,10):
@@ -102,9 +96,10 @@ print('Welcoe to Tic-Tac-Toe')
 
 while True:
     theBoard = [' '] * 10
-    playerLetter, computerLetter, = inputPlayerLetter()
+    playerLetter, computerLetter = inputPlayerLetter()
+    print(playerLetter,computerLetter)
     turn = whoGoesFirst()   
-    print('the' + turn + 'will go first')
+    print('the ' + turn + ' will go first')
     gameIsPlaying = True 
 
     while gameIsPlaying:
@@ -124,7 +119,6 @@ while True:
                     break 
                 else:
                     turn = 'computer'
-
         else:
             move = getComputerMove(theBoard, computerLetter)
             makeMove(theBoard, computerLetter, move)
